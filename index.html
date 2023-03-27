@@ -26,12 +26,18 @@
         cursor: pointer;
         box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
       }
+      content{
+          max-width: 500px;
+          margin: auto;
+      }
     </style>
   </head>
   <body>
     <form>
+      <div class="content">
       <input type="number" name="id_number" placeholder="Enter 13-digit Identity Number" pattern="\d{13}" required>
       <button type="submit">Search</button>
+      </div>
     </form>
   </body>
 </html>
