@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Identity Number Search</title>
+    <title>South Africa Public Holidays Checker</title>
     <style>
       body {
-        background-color: #d5f5e3;
+        background-color: #f7dc6f;
       }
-      input[type="number"] {
+      h1 {
+        font-size: 36px;
+        text-align: center;
+        margin-top: 50px;
+        margin-bottom: 50px;
+      }
+      input[type="text"] {
         width: 300px;
         padding: 10px;
         font-size: 16px;
@@ -21,23 +27,52 @@
         font-size: 16px;
         border: none;
         border-radius: 5px;
-        background-color: #2ecc71;
+        background-color: #e67e22;
         color: white;
         cursor: pointer;
         box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
       }
-      content{
-          max-width: 500px;
-          margin: auto;
+      #result {
+        text-align: center;
+        font-size: 24px;
+        margin-top: 20px;
       }
     </style>
   </head>
   <body>
+    <h1>South Africa Public Holidays Checker</h1>
     <form>
-      <div class="content">
-      <input type="number" name="id_number" placeholder="Enter 13-digit Identity Number" pattern="\d{13}" required>
-      <button type="submit">Search</button>
-      </div>
+      <label for="id_number">Enter your South Africa ID Number:</label>
+      <input type="text" id="id_number" name="id_number" placeholder="YYMMDDNNNC(A)">
+      <button type="submit" onclick="checkPublicHolidays()">Check Public Holidays</button>
     </form>
+    <div id="result"></div>
+    <script>
+      function checkPublicHolidays() {
+        const idNumber = document.getElementById("id_number").value;
+        const birthDate = new Date(`${idNumber.substring(0, 2)}-${idNumber.substring(2, 4)}-${idNumber.substring(4, 6)}`);
+        const birthMonth = birthDate.getMonth() + 1;
+        const birthDay = birthDate.getDate();
+        const publicHolidays = {
+          "01-01": "New Year's Day",
+          "03-21": "Human Rights Day",
+          "04-27": "Freedom Day",
+          "05-01": "Workers' Day",
+          "06-16": "Youth Day",
+          "08-09": "National Women's Day",
+          "09-24": "Heritage Day",
+          "12-16": "Day of Reconciliation",
+          "12-25": "Christmas Day",
+          "12-26": "Day of Goodwill"
+        };
+        const birthdayHoliday = publicHolidays[`${birthMonth.toString().padStart(2, "0")}-${birthDay.toString().padStart(2, "0")}`];
+        const result = document.getElementById("result");
+        if (birthdayHoliday) {
+          result.innerHTML = `Congratulations! Your birthday falls on ${birthdayHoliday}.`;
+        } else {
+          result.innerHTML = "Sorry, there are no important public holidays on your birthday.";
+        }
+      }
+    </script>
   </body>
 </html>
