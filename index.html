@@ -48,8 +48,8 @@
     </form>
     <div id="result"></div>
     <script>
-      function checkPublicHolidays(event) {
-        event.preventDefault();
+      function checkPublicHolidays() {
+        
         const idNumber = document.getElementById("id_number").value;
         const birthDate = new Date(`${idNumber.substring(0, 2)}-${idNumber.substring(2, 4)}-${idNumber.substring(4, 6)}`);
         const birthMonth = birthDate.getMonth() + 1;
