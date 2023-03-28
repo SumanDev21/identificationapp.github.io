@@ -48,6 +48,24 @@
     </form>
     <div id="result"></div>
     <script>
+      function validateInput() {
+  const idNumber = document.getElementById("id_number").value;
+  const searchButton = document.getElementById("search_button");
+  const dateOfBirth = idNumber.substring(0, 6);
+  const gender = idNumber.substring(6, 10);
+  const citizenship = idNumber.substring(10, 11);
+  if (idNumber.length === 13 &&
+      /^\d{13}$/.test(idNumber) &&
+      parseInt(dateOfBirth.substring(2, 4)) <= 12 &&
+      parseInt(dateOfBirth.substring(4, 6)) <= 31 &&
+      ((parseInt(gender) >= 0 && parseInt(gender) <= 4999) ||
+       (parseInt(gender) >= 5000 && parseInt(gender) <= 9999)) &&
+      (citizenship === '0' || citizenship === '1')) {
+    searchButton.disabled = false;
+  } else {
+    searchButton.disabled = true;
+  }
+}
       function checkPublicHolidays() {
         
         const idNumber = document.getElementById("id_number").value;
