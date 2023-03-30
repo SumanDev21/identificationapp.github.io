@@ -63,7 +63,7 @@
       <label for="id_number">Enter your South Africa ID Number:</label>
       <input type="text" id="id_number" name="id_number" placeholder="Enter your 13 Digit ID number" list="search-options">
       <datalist id="search-options"></datalist>
-      <button type="submit" onclick="checkPublicHolidays()">Check Public Holidays</button>
+      <button type="submit" onclick="validateInput();checkPublicHolidays()">Check Public Holidays</button>
     </form>
     <div id="result"></div>
     <script>
@@ -91,6 +91,12 @@
         const birthDate = new Date(`${idNumber.substring(0, 2)}-${idNumber.substring(2, 4)}-${idNumber.substring(4, 6)}`);
         const birthMonth = birthDate.getMonth() + 1;
         const birthDay = birthDate.getDate();
+	const year = idNumber.substring(0,2);
+	if (year >= 00 & year <= 21){
+		year = "20" + year;
+	} else {
+		year = "19" + year;
+	}
         const publicHolidays = {
           "01-01": "New Year's Day",
           "03-21": "Human Rights Day",
@@ -110,7 +116,22 @@
         } else {
           result.innerHTML = "Sorry, there are no important public holidays on your birthday.";
         }
-      }
+       var endpointUrl = "/services/apexrest/HolidayService?year=" + year;
+			var request = new XMLHttpRequest();
+			request.open("GET", endpointUrl, true);
+			request.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					var holidays = JSON.parse(this.responseText);
+					var holidaysDiv = document.getElementById("holidaysDiv");
+					holidaysDiv.innerHTML = "";
+					for (var i = 0; i < holidays.length; i++) {
+						var holiday = holidays[i];
+						holidaysDiv.innerHTML += holiday.name + " - " + holiday.date + "<br>";
+					}
+				}
+			};
+			request.send();
+		}
     </script>
   </body>
 </html>
